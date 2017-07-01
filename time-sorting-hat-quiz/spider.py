@@ -8,14 +8,16 @@ class TimePotterQuizSpider(scrapy.Spider):
 
     def __init__(self):
         import os
+        # Setting up selenium chrome env
         currdir = os.path.dirname(os.path.realpath(__file__))
-        chromedriver_path = os.path.join(currdir,'../bin/chromedriver')
+        chromedriver_path = os.path.join(currdir,'../lib/chromedriver')
         os.environ["webdriver.chrome.driver"] = chromedriver_path
+
+        # Instantiating driver
         self.driver = webdriver.Chrome(chromedriver_path)
         
     def parse(self, response):
         # div#harry_potter_house
         self.driver.get(self.start_urls[0])
-
 
         self.driver.close()
