@@ -15,7 +15,7 @@
 
 ## Notes
 
-From the main page:
+#### From the main page:
 
 To accomplish this, we worked with the researchers to develop a 21-question quiz compiled from <mark>several well-established scientific personality surveys</mark>, choosing questions that related to prevalent themes in the books. Over the past several weeks, we recruited hundreds of Harry Potter fans to take this survey on behalf of 20 different characters from the books, five from each House. The tens of thousands of data points we gathered gave us a detailed portrait of how different personality traits correspond to the personalities of members of each of the four Houses.
 
@@ -24,3 +24,16 @@ The 21 questions in the Harry Potter personality quiz are drawn from both the Bi
 
 
 When you take this quiz, we analyze your responses and compare them to how closely they match each of the four Houses, using a [standard statistical model](https://en.wikipedia.org/wiki/Generalized_linear_model) (ed note: the Generalized Linear Model) designed to measure the relationship between datasets. <mark>Your affinity for each House is measured independently</mark>, so it's very possible that your personality closely matches two different Houses — a phenomenon that the Sorting Hat itself is well familiar with, given its history of waffling between two Houses when a character's personality isn't an obvious match for one. 
+
+
+#### From the results page:
+
+"Thank you for having completed the questionnaire. You have greatly helped to advance our research."
+
+"The present investigation seeks to analyze the geographical distribution of an array of personality traits (e.g., courage, Machiavellianism, in-group loyalty) across the United States. Moreover, we are interested whether these personality traits, when averaged across all residents of a certain area, relate to indicators of economic performance, such as state-level average income or start-up rates. This is part of a rather young field of research in geographical psychology."
+
+"Traditionally, psychologists have compared samples across countries without looking at the diversity within those countries. Geographical psychology aims to bridge the gap by examining intra-cultural differences across regions. Next, the consequences of these differences on more visible levels, such as regional economic performance, are explored. The current study advances this line of research by looking at new concepts (such as courage) that have not been studied in geographical psychology before and thus foster a more in-depth understanding of the relevant dimensions of regional differences."
+
+"If you have any further questions regarding our research, please do not hesitate to contact us at <a href="mailto:pottercam.research@googlemail.com">pottercam.research@googlemail.com</a> or visit the <a href="http://www.psychol.cam.ac.uk">website of the Department of Psychology at the University of Cambridge</a>."
+
+
