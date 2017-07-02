@@ -1,5 +1,6 @@
 import time
 import scrapy
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,15 +10,16 @@ import selenium.webdriver.chrome.service as service
 WAIT_TIME = 10
 NUM_QUESTIONNAIRE_PAGES = 3
 
+NUM_SAMPLE_INPUTS = 1500
+
 class TimePotterQuizSpider(scrapy.Spider):
     name = 'timepotterquizspider'
     start_urls = ['http://time.com/4809884/harry-potter-house-sorting-hat-quiz/']
+    currdir = os.path.dirname(os.path.realpath(__file__))
 
     def __init__(self):
-        import os
         # Setting up selenium chrome env
-        currdir = os.path.dirname(os.path.realpath(__file__))
-        chromedriver_path = os.path.join(currdir,'../lib/chromedriver')
+        chromedriver_path = os.path.join(self.currdir,'../lib/chromedriver')
         os.environ["webdriver.chrome.driver"] = chromedriver_path
 
         # Instantiating driver
@@ -30,9 +32,8 @@ class TimePotterQuizSpider(scrapy.Spider):
             question_id = inventory_question.get_attribute('id')
             question_text = inventory_question.find_element_by_class_name('inventory_question_text').text
             inventory_buttons = inventory_question.find_element_by_class_name('inventory_buttons')
-            value = quiz_input
+            value = quiz_input[question_id]
             button_to_select = inventory_buttons.find_element_by_css_selector('button:nth-child({})'.format(value))
-            # self.quiz_input[question_id] = {'text': question_text, 'value': value}
             button_to_select.click()
 
     def click_next(self):
@@ -54,6 +55,8 @@ class TimePotterQuizSpider(scrapy.Spider):
             house_name = house_percentage_label.text
             percent_bar_label = percent_bar_container.find_element_by_class_name("percent_bar_label")
             house_percent = percent_bar_label.text
+
+            # Keep as string since we do not want to introduce needless rounding at this point
             results[house_name] = house_percent
 
         return results
@@ -98,9 +101,9 @@ class TimePotterQuizSpider(scrapy.Spider):
             continue_button = self.driver.find_element_by_xpath('//*[@id="inventory_slide_intro"]/div[2]/button')
             continue_button.click()
 
-    def select_all_questions(self, inputs):
+    def select_all_questions(self, quiz_input):
         for _ in range(NUM_QUESTIONNAIRE_PAGES):
-            self.select_questions(inputs)
+            self.select_questions(quiz_input)
             self.click_next()
 
     def start_quiz(self):
@@ -115,19 +118,48 @@ class TimePotterQuizSpider(scrapy.Spider):
 
         # Allow to initiate view
         time.sleep(1)
+    
+    def generate_inputs(self, n):
+        import os
+        import json
+        from itertools import product, islice
+        from random import seed, randint
+
+        seed(42)
+
+        with open(os.path.join(os.path.dirname(__file__), 'inputs.json')) as data_file:
+            data = json.load(data_file)
+            num_questions = len(data.keys())
+            num_possible_answers = 7
+
+            # Start as set to have constant time duplicate lookup
+            inputs = set()
+            while len(inputs) < n:
+                seq = []
+                for _ in range(1,num_questions+1):
+                    # Create char of int sequence
+                    seq.append(str(randint(1,num_possible_answers)))
+                # Create string sequence so set works
+                inputs.add(''.join(seq))
+
+            # Convert unique string sequences to ints
+            inputs = [map(int, list(seq)) for seq in inputs]
+
+            # Convert into dictionary items with question keys
+            inputs = [dict(zip(data.keys(), values)) for values in inputs]
+
+            return inputs
 
     def parse(self, response):
         import json
         self.driver.get(self.start_urls[0])
 
         # Inputs will be the questions and the values given
-        inputs = [2]
+        inputs = self.generate_inputs(NUM_SAMPLE_INPUTS)
 
-        # Only appears once per session
-        self.kill_time_popup()
-
-        for quiz_input in inputs:
+        for qi, quiz_input in enumerate(inputs):
             # Destroy ads and popups that intefere
+            self.kill_time_popup()
             self.kill_ads()
 
             # Start the quiz
@@ -140,9 +172,15 @@ class TimePotterQuizSpider(scrapy.Spider):
             self.select_all_questions(quiz_input)
 
             # Gather the house percentages
-            self.results = self.gather_results()
+            results = self.gather_results()
 
-            print(self.results)
+            data = {
+                "inputs": quiz_input,
+                "results": results,
+            }
+
+            with open(os.path.join(self.currdir,'data/',"{}.json".format(qi)), 'w') as df:
+                json.dump(data, df)
 
             self.driver.refresh()
 
