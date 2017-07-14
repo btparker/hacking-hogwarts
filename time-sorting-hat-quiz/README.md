@@ -37,3 +37,7 @@ When you take this quiz, we analyze your responses and compare them to how close
 "If you have any further questions regarding our research, please do not hesitate to contact us at <a href="mailto:pottercam.research@googlemail.com">pottercam.research@googlemail.com</a> or visit the <a href="http://www.psychol.cam.ac.uk">website of the Department of Psychology at the University of Cambridge</a>."
 
 
+## Hacking
+
+Found the unminified script at [http://time-static-shared.s3-website-us-east-1.amazonaws.com/interactives/harry_potter_house/script.js](http://time-static-shared.s3-website-us-east-1.amazonaws.com/interactives/harry_potter_house/script.js)
+
