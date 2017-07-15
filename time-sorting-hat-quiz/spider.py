@@ -203,7 +203,7 @@ class TimePotterQuizSpider(scrapy.Spider):
             pass
 
     def generate_save_path(self, qi):
-        return os.path.join(self.currdir,'data/',"{0:05d}.json".format(qi))
+        return os.path.join(self.currdir,'data/scraped_json/',"{0:05d}.json".format(qi))
 
     def save_data(self, qi, quiz_input, results):
         import json
