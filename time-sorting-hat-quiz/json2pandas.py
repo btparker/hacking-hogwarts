@@ -16,4 +16,4 @@ df = pd.DataFrame(data=json_normalize(data))
 
 # Convert the scraped percentage values to float values
 df = df.replace('%','',regex=True).astype('float')/100
-print(df)
+df.to_pickle('data/dataframe.pkl')
