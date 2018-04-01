@@ -1,3 +1,7 @@
+hacking_hogwarts/time_quiz/data/
+hacking_hogwarts/time_quiz/extracted/
+hacking_hogwarts/time_quiz/output/
+
 # Python Virtual Environment
 .penv/
 lib/

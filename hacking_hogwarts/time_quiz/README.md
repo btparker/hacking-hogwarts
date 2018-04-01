@@ -6,7 +6,7 @@
 
 - [ ] Research sources for the 21 question quiz
 - [ ] Develop a scraper for the quiz
-- [ ] Brute force scrape ALL possible results (21 * 7 = 147)
+- [ ] Scrape data
 - [ ] Using Tensorflow and a subset of the data, see if an accurate model can be created
 - [ ] Using scikit and a subset of the data, create a Generalized Linear Model through traditional means
 - [ ] Evaluate
